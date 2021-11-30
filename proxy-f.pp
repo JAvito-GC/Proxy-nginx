@@ -12,3 +12,14 @@ class{"nginx":
     proxy       => 'http://$http_host$uri$is_args$args',
     format_log  => main,
   }
+
+  haproxy::balancermember { 'haproxy':
+  listening_service => 'nginx_proxy',
+  ports             => '80','8080','443','8443'
+  servernames       => '$::hostname',
+  fqdn              => '',
+  verifyhost        => 'false',
+  options           => 'check',
+  instance          => 'haproxy',
+}
+
